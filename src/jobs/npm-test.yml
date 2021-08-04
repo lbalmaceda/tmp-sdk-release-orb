@@ -1,0 +1,18 @@
+description: >
+  Installs packages and runs the tests using npm.
+
+executor: default
+
+parameters:
+  test-command:
+    type: string
+    default: "test"
+    description: "The npm command to run the tests with"
+
+steps:
+  - checkout
+  - npm-install-packages:
+      override-command: <<parameters.override-command>>
+  - run:
+      command: npm <<parameters.test-command>>
+  

@@ -1,0 +1,21 @@
+description: >
+  This command verifies if the version in the package.json file is 
+  already published, and if not, it will attempt to publish it to NPM.
+
+parameters:
+  override-command:
+    type: string
+    default: "publish --no-scripts"
+    description: "The npm command to use to publish the package, including any additional flags"
+  npm-token-key:
+    type: env_var_name
+    default: NPM_TOKEN
+    description: "The NPM automation token environment variable"
+
+steps:
+  - run:
+      environment:
+        PARAM_OVERRIDE_COMMAND: <<parameters.override-command>>
+        NPM_TOKEN: <<parameters.npm-token-key>>
+      name: Check version and publish to NPM
+      command: <<include(scripts/npm-publish.sh)>>

@@ -1,0 +1,20 @@
+description: >
+  Runs the tests using NPM
+
+usage:
+  version: 2.1
+  orbs:
+    node-publisher: lbalmaceda/node-publisher@1.2.3
+  workflows:
+    build-and-test:
+      jobs:
+        - node-publisher/npm-test
+        - node-publisher/npm-publish
+            context:
+              - publish-npm
+            requires:
+              - node-publisher/npm-test
+            filters:
+              branches:
+                only:
+                  - master
