@@ -1,12 +1,13 @@
 Publish() {
-    export PACKAGE_NAME=$(node -p "require('./package.json').name")
-    export LOCAL_VERSION=$(node -p "require('./package.json').version")
-    export PUBLISHED_VERSION=$(npm view $PACKAGE_NAME versions --json | jq -r '.[-1]')
-    if [[ $LOCAL_VERSION != $PUBLISHED_VERSION ]]; then
+    PACKAGE_NAME=$(node -p "require('./package.json').name")
+    LOCAL_VERSION=$(node -p "require('./package.json').version")
+    PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME" versions --json | jq -r '.[-1]')
+    
+    if [[ $LOCAL_VERSION != "$PUBLISHED_VERSION" ]]; then
         echo "Version $LOCAL_VERSION found unpublished. Publishing it to NPM."
-        npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-        npm $PARAM_OVERRIDE_COMMAND
-    elif
+        npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+        npm "$PARAM_OVERRIDE_COMMAND"
+    else
         echo "Version $LOCAL_VERSION is already published."
     fi
 }
