@@ -1,5 +1,5 @@
 description: >
-  This command verifies if the version in the package.json file is 
+  This command verifies if the version in the package.json file is
   already published, and if not, it will attempt to publish it to NPM.
 
 parameters:

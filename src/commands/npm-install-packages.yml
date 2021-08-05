@@ -6,7 +6,7 @@ parameters:
     type: string
     default: "ci --ignore-scripts"
     description: "The npm command to use to install the packages, including any additional flags"
-  
+
 steps:
   - node/install-packages:
       override-ci-command: <<parameters.override-command>>
