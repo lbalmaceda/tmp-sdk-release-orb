@@ -12,6 +12,6 @@ parameters:
 steps:
   - checkout
   - npm-install-packages:
-      override-command: <<parameters.override-command>>
+      override-command: <<parameters.test-command>>
   - run:
       command: npm <<parameters.test-command>>

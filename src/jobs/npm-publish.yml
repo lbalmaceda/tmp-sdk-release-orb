@@ -5,7 +5,8 @@ executor: default
 
 parameters:
   publish-command:
-    type: "publish --no-scripts"
+    type: string
+    default: "publish --no-scripts"
     description: "The npm command to publish the package with"
 
 steps:
