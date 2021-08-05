@@ -1,0 +1,14 @@
+description: >
+  Publishes the package to NPM, if required.
+
+executor: default
+
+parameters:
+  publish-command:
+    type: "publish --no-scripts"
+    description: "The npm command to publish the package with"
+
+steps:
+  - checkout
+  - npm-publish:
+      override-command: <<parameters.publish-command>>

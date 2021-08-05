@@ -9,7 +9,7 @@ usage:
     build-and-test:
       jobs:
         - node-publisher/npm-test
-        - node-publisher/npm-publish
+        - node-publisher/npm-publish:
             context:
               - publish-npm
             requires:
