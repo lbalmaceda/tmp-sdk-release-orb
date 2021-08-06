@@ -18,19 +18,8 @@ parameters:
     enum:
       - npm
       - yarn
-  ignore-scripts:
-    type: boolean
-    default: false
-    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
-  - when:
-      condition: <<parameters.ignore-scripts>>
-      steps:
-        - set-pkg-manager-flag:
-            flag-name: 'ignore-scripts'
-            flag-value: 'true'
-            pkg-manager: <<parameters.pkg-manager>>
   - run:
       environment:
         PUBLISH_COMMAND: <<parameters.publish-command>>
@@ -38,10 +27,3 @@ steps:
         PKG_MANAGER: <<parameters.pkg-manager>>
       name: Check package version and publish to npm if required
       command: <<include(scripts/publish-to-npm.sh)>>
-  - when:
-      condition: <<parameters.ignore-scripts>>
-      steps:
-        - set-pkg-manager-flag:
-            flag-name: 'ignore-scripts'
-            flag-value: 'false'
-            pkg-manager: <<parameters.pkg-manager>>

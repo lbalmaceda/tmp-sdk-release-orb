@@ -15,15 +15,12 @@ parameters:
     enum:
       - npm
       - yarn
-  ignore-scripts:
-    type: boolean
-    default: false
-    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
   - checkout
   - install-packages:
       pkg-manager: <<parameters.pkg-manager>>
-      ignore-scripts: <<parameters.ignore-scripts>>
       after-deps:
-        - run: <<parameters.test-command>>
+        - run:
+            name: "Running tests"
+            command: <<parameters.test-command>>

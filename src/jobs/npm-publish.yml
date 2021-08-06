@@ -15,18 +15,12 @@ parameters:
     enum:
       - npm
       - yarn
-  ignore-scripts:
-    type: boolean
-    default: false
-    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
   - checkout
   - install-packages:
       pkg-manager: <<parameters.pkg-manager>>
-      ignore-scripts: <<parameters.ignore-scripts>>
   - npm-publish:
       npm-token-key: <<parameters.npm-token-key>>
       pkg-manager: <<parameters.pkg-manager>>
-      ignore-scripts: <<parameters.ignore-scripts>>
   # - github-release

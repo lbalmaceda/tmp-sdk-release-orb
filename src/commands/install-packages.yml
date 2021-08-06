@@ -17,27 +17,9 @@ parameters:
     enum:
       - npm
       - yarn
-  ignore-scripts:
-    type: boolean
-    default: false
-    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
-  - when:
-      condition: <<parameters.ignore-scripts>>
-      steps:
-        - set-pkg-manager-flag:
-            flag-name: 'ignore-scripts'
-            flag-value: 'true'
-            pkg-manager: <<parameters.pkg-manager>>
   - node/install-packages:
       override-ci-command: <<parameters.install-command>>
       pkg-manager: <<parameters.pkg-manager>>
-  - when:
-      condition: <<parameters.ignore-scripts>>
-      steps:
-        - set-pkg-manager-flag:
-            flag-name: 'ignore-scripts'
-            flag-value: 'false'
-            pkg-manager: <<parameters.pkg-manager>>
   - steps: <<parameters.after-deps>>
