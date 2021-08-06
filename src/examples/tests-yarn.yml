@@ -1,5 +1,5 @@
 description: >
-  Runs the tests using npm
+  Runs the tests using yarn
 
 usage:
   version: 2.1
@@ -8,4 +8,5 @@ usage:
   workflows:
     build-and-test:
       jobs:
-        - node-publisher/test
+        - node-publisher/test:
+            pkg-manager: yarn

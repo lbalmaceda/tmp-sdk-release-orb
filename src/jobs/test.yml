@@ -6,7 +6,7 @@ executor: default
 parameters:
   test-command:
     type: string
-    default: "npm test"
+    default: ""
     description: "The command to run the tests with"
   pkg-manager:
     type: enum
@@ -21,6 +21,15 @@ steps:
   - install-packages:
       pkg-manager: <<parameters.pkg-manager>>
       after-deps:
-        - run:
-            name: "Running tests"
-            command: <<parameters.test-command>>
+        - when:
+            condition: <<parameters.test-command>>
+            steps:
+              - run:
+                  name: "Running tests"
+                  command: <<parameters.test-command>>
+        - unless:
+            condition: <<parameters.test-command>>
+            steps:
+              - run:
+                  name: "Running tests"
+                  command: <<parameters.pkg-manager>> test

@@ -20,7 +20,7 @@ steps:
   - checkout
   - install-packages:
       pkg-manager: <<parameters.pkg-manager>>
-  - npm-publish:
+  - publish:
       npm-token-key: <<parameters.npm-token-key>>
       pkg-manager: <<parameters.pkg-manager>>
   # - github-release

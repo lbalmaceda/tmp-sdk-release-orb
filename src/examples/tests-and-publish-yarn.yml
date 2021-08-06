@@ -1,5 +1,5 @@
 description: >
-  Runs the tests and publish the package using npm
+  Runs the tests and publish the package using yarn
 
 usage:
   version: 2.1
@@ -8,8 +8,10 @@ usage:
   workflows:
     build-and-test:
       jobs:
-        - node-publisher/test
+        - node-publisher/test:
+            pkg-manager: yarn
         - node-publisher/publish:
+            pkg-manager: yarn
             context:
               - publish-npm
             requires:
