@@ -1,0 +1,22 @@
+description: >
+  Updates a given flag's value using the package manager of preference.
+
+parameters:
+  flag-name:
+    type: string
+    description: "Command used to install dependencies"
+  flag-value:
+    type: string
+    description: "Command used to install dependencies"
+  pkg-manager:
+    type: enum
+    default: npm
+    description: "Default node package manager to use"
+    enum:
+      - npm
+      - yarn
+
+steps:
+  - run:
+      name: 'Configuring global package manager flag'
+      command: <<parameters.pkg-manager>> config set <<parameters.flag-name>> <<parameters.flag-value>>

@@ -4,12 +4,29 @@ description: >
 executor: default
 
 parameters:
-  publish-command:
-    type: string
-    default: "publish --no-scripts"
-    description: "The npm command to publish the package with"
+  npm-token-key:
+    type: env_var_name
+    default: NPM_TOKEN
+    description: "The environment variable with the npm Automation Token"
+  pkg-manager:
+    type: enum
+    default: npm
+    description: "Default node package manager to use"
+    enum:
+      - npm
+      - yarn
+  ignore-scripts:
+    type: boolean
+    default: false
+    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
   - checkout
+  - install-packages:
+      pkg-manager: <<parameters.pkg-manager>>
+      ignore-scripts: <<parameters.ignore-scripts>>
   - npm-publish:
-      override-command: <<parameters.publish-command>>
+      npm-token-key: <<parameters.npm-token-key>>
+      pkg-manager: <<parameters.pkg-manager>>
+      ignore-scripts: <<parameters.ignore-scripts>>
+  # - github-release

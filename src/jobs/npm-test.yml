@@ -6,12 +6,24 @@ executor: default
 parameters:
   test-command:
     type: string
-    default: "test"
-    description: "The npm command to run the tests with"
+    default: "npm test"
+    description: "The command to run the tests with"
+  pkg-manager:
+    type: enum
+    default: npm
+    description: "Default node package manager to use"
+    enum:
+      - npm
+      - yarn
+  ignore-scripts:
+    type: boolean
+    default: false
+    description: "Prevents your own and third-party scripts from running during dependencies pre/post install"
 
 steps:
   - checkout
-  - npm-install-packages:
-      override-command: <<parameters.test-command>>
-  - run:
-      command: npm <<parameters.test-command>>
+  - install-packages:
+      pkg-manager: <<parameters.pkg-manager>>
+      ignore-scripts: <<parameters.ignore-scripts>>
+      after-deps:
+        - run: <<parameters.test-command>>

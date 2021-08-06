@@ -1,16 +1,15 @@
 description: >
-  This command verifies if the version in the package.json file is
-  already published, and if not, it will attempt to publish it to npm.
+  Install the project dependencies using cache best-practices and runs the given commands.
 
 parameters:
-  publish-command:
+  after-deps:
+    type: steps
+    default: []
+    description: "Steps that will be executed after dependencies are installed"
+  install-command:
     type: string
     default: ""
-    description: "The command to use to publish the package, including any additional flags"
-  npm-token-key:
-    type: env_var_name
-    default: NPM_TOKEN
-    description: "The environment variable with the npm Automation Token"
+    description: "Command used to install dependencies"
   pkg-manager:
     type: enum
     default: npm
@@ -31,13 +30,9 @@ steps:
             flag-name: 'ignore-scripts'
             flag-value: 'true'
             pkg-manager: <<parameters.pkg-manager>>
-  - run:
-      environment:
-        PUBLISH_COMMAND: <<parameters.publish-command>>
-        NPM_TOKEN: <<parameters.npm-token-key>>
-        PKG_MANAGER: <<parameters.pkg-manager>>
-      name: Check package version and publish to npm if required
-      command: <<include(scripts/publish-to-npm.sh)>>
+  - node/install-packages:
+      override-ci-command: <<parameters.install-command>>
+      pkg-manager: <<parameters.pkg-manager>>
   - when:
       condition: <<parameters.ignore-scripts>>
       steps:
@@ -45,3 +40,4 @@ steps:
             flag-name: 'ignore-scripts'
             flag-value: 'false'
             pkg-manager: <<parameters.pkg-manager>>
+  - steps: <<parameters.after-deps>>
