@@ -7,7 +7,7 @@ parameters:
   npm-token-key:
     type: env_var_name
     default: NPM_TOKEN
-    description: "The environment variable with the npm Automation Token"
+    description: "The name of the environment variable with the Npm Automation Token"
   pkg-manager:
     type: enum
     default: npm

@@ -1,5 +1,5 @@
 description: >
-  Runs the tests using yarn
+  Runs the tests using Yarn
 
 usage:
   version: 2.1

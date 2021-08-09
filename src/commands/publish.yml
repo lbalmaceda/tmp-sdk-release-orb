@@ -1,6 +1,6 @@
 description: >
   This command verifies if the version in the package.json file is
-  already published, and if not, it will attempt to publish it to npm.
+  already published, and if not, it will attempt to publish it to Npm.
 
 parameters:
   publish-command:
@@ -10,7 +10,7 @@ parameters:
   npm-token-key:
     type: env_var_name
     default: NPM_TOKEN
-    description: "The environment variable with the npm Automation Token"
+    description: "The name of the environment variable with the Npm Automation Token"
   pkg-manager:
     type: enum
     default: npm
@@ -23,7 +23,7 @@ steps:
   - run:
       environment:
         PUBLISH_COMMAND: <<parameters.publish-command>>
-        NPM_TOKEN: <<parameters.npm-token-key>>
+        NPM_TOKEN_KEY: <<parameters.npm-token-key>>
         PKG_MANAGER: <<parameters.pkg-manager>>
       name: Check package version and publish to npm if required
       command: <<include(scripts/publish-to-npm.sh)>>

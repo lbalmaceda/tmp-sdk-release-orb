@@ -1,5 +1,6 @@
 description: >
-  Runs the tests and publish the package using npm
+  Runs the tests and publish the package using Npm.
+  The Context declared must contain an NPM_TOKEN with the Npm Automation Token.
 
 usage:
   version: 2.1
