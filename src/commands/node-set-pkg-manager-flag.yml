@@ -4,10 +4,10 @@ description: >
 parameters:
   flag-name:
     type: string
-    description: "Command used to install dependencies"
+    description: "The name of the flag"
   flag-value:
     type: string
-    description: "Command used to install dependencies"
+    description: "The value to set to the flag"
   pkg-manager:
     type: enum
     default: npm

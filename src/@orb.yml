@@ -1,7 +1,8 @@
 version: 2.1
 
 description: >
-  A Node Orb to run tests and publish packages to NPM.
+  Auth0 Orb to publish packages to:
+  - Npm
 
 display:
   home_url: "https://github.com/lbalmaceda/tmp-sdk-release-orb"

@@ -26,4 +26,4 @@ steps:
         NPM_TOKEN_KEY: <<parameters.npm-token-key>>
         PKG_MANAGER: <<parameters.pkg-manager>>
       name: Check package version and publish to npm if required
-      command: <<include(scripts/publish-to-npm.sh)>>
+      command: <<include(scripts/node-publish-to-npm.sh)>>

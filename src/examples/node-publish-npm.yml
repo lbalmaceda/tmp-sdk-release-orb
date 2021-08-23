@@ -1,5 +1,5 @@
 description: >
-  Publishes the package using Yarn.
+  Publishes the package using Npm.
   The Context declared must contain an NPM_TOKEN with the Npm Automation Token.
 
 usage:
@@ -9,7 +9,6 @@ usage:
   workflows:
     build:
       jobs:
-        - node-publisher/publish:
-            pkg-manager: yarn
+        - node-publisher/node-publish:
             context:
               - publish-npm

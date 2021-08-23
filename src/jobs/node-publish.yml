@@ -18,9 +18,9 @@ parameters:
 
 steps:
   - checkout
-  - install-packages:
+  - node-install-packages:
       pkg-manager: <<parameters.pkg-manager>>
-  - publish:
+  - node-publish:
       npm-token-key: <<parameters.npm-token-key>>
       pkg-manager: <<parameters.pkg-manager>>
   # - github-release
