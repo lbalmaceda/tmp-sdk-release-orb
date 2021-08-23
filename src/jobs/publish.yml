@@ -1,7 +1,7 @@
 description: >
   Publishes the package to NPM, if required.
 
-executor: default
+executor: node
 
 parameters:
   npm-token-key:
