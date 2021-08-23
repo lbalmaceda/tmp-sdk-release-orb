@@ -11,7 +11,7 @@ Publish() {
     PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME" versions --json | jq -r '.[-1]')
 
     if [[ $LOCAL_VERSION != "$PUBLISHED_VERSION" ]]; then
-        echo "Version $LOCAL_VERSION found unpublished. Publishing it to Npm."
+        echo "Version $LOCAL_VERSION found unpublished."
         # Configuration from command below will be picked up by yarn as well
         npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
         
