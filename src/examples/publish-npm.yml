@@ -1,0 +1,14 @@
+description: >
+  Publishes the package using Npm.
+  The Context declared must contain an NPM_TOKEN with the Npm Automation Token.
+
+usage:
+  version: 2.1
+  orbs:
+    node-publisher: lbalmaceda/node-publisher@0.0.1
+  workflows:
+    build:
+      jobs:
+        - node-publisher/publish:
+            context:
+              - publish-npm
