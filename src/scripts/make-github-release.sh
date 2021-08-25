@@ -11,11 +11,16 @@ PREFIXED_VERSION="$TAG_PREFIX$LOCAL_VERSION"
 if ! git show-ref --tags "$PREFIXED_VERSION"; then
     echo "Tag with name '$PREFIXED_VERSION' found unpublished."
 
-    curl -v \
+    STATUS_CODE=$(curl --silent \
+    --output /dev/stderr \
+    --write-out "%{http_code}" \
     -H "Accept: application/json" \
     -H "Authorization: token $GH_TOKEN" \
     -d "tag_name=$PREFIXED_VERSION" \
-    "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
+    "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases")
+    
+    if [ "$STATUS_CODE" -ne 200 ]; then exit "$STATUS_CODE"; fi
+    
 else
     echo "Tag with name '$PREFIXED_VERSION' is already published."
 fi
