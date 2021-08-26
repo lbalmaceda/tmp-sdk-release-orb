@@ -26,13 +26,23 @@ git fetch --tags
 if ! git show-ref --tags "$LOCAL_VERSION"; then
     echo "Tag with name '$LOCAL_VERSION' found unpublished."
     
+    # Try to get the Changelog entry from the release PR
+    RELEASE_PR_BRANCH="release/$LOCAL_VERSION"
+    RELEASE_PR_BODY=$(curl -H "Accept: application/json" \
+    -H "Authorization: token $GH" \
+    "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls/?state=all&head=$CIRCLE_PROJECT_USERNAME:$RELEASE_PR_BRANCH" \
+    | jq -r ".[0].body"
+    )
+    if [ -z "$RELEASE_PR_BODY" ] || [[ "$RELEASE_PR_BODY" == "null" ]]; then RELEASE_PR_BODY=""; fi
+
+    # POST the Release
     API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
     STATUS_CODE=$(curl \
     --output /dev/stderr \
     --write-out "%{http_code}" \
     -H "Accept: application/json" \
     -H "Authorization: token $GH_TOKEN" \
-    -d '{"tag_name":'\""$LOCAL_VERSION"\"',"name":'\""$LOCAL_VERSION"\"'}' \
+    -d '{"tag_name":'\""$LOCAL_VERSION"\"',"name":'\""$LOCAL_VERSION"\"',"body":'\""$RELEASE_PR_BODY"\"'}' \
     "$API_URL"
     )
     
