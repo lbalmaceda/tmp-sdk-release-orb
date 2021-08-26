@@ -1,15 +1,19 @@
 description: >
   Publishes the package using Yarn.
-  The Context declared must contain an NPM_TOKEN with the Npm Automation Token.
 
 usage:
   version: 2.1
   orbs:
-    node-publisher: lbalmaceda/node-publisher@0.0.1
+    ship: lbalmaceda/node-publisher@0.0.1
   workflows:
     build:
       jobs:
-        - node-publisher/node-publish:
+        - ship/node-publish:
             pkg-manager: yarn
             context:
-              - publish-npm
+              - publish-npm # Defines NPM_TOKEN
+              - publish-gh # Defines GH_TOKEN
+            filters:
+              branches:
+                only:
+                  - main
