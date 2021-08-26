@@ -7,15 +7,15 @@ parameters:
     type: env_var_name
     default: GH_TOKEN
     description: "The name of the environment variable with the Github Access Token"
-  tag-prefix:
-    type: string
-    default: "v"
-    description: "The prefix to use for the tag name. Defaults to 'v' (i.e. v1.2.3)."
+  prefix-tag:
+    type: boolean
+    default: true
+    description: "Whether to prefix the tag name with a 'v' or not"
 
 steps:
   - run:
       environment:
         GH_TOKEN_KEY: <<parameters.gh-token-key>>
-        TAG_PREFIX: <<parameters.tag-prefix>>
+        PREFIX_TAG: <<parameters.prefix-tag>>
       name: Check package version and publish to Github if required
       command: <<include(scripts/make-github-release.sh)>>

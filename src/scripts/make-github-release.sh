@@ -12,13 +12,13 @@ if [[ -z "$CIRCLE_PROJECT_USERNAME" ]] || [[ -z "$CIRCLE_PROJECT_REPONAME" ]]; t
 fi
 
 LOCAL_VERSION=$(node -p "require('./package.json').version")
-PREFIXED_VERSION=$TAG_PREFIX$LOCAL_VERSION
+if $PREFIX_TAG; then LOCAL_VERSION="v$LOCAL_VERSION"; fi
 
 # Pull the latest tags locally
 git fetch --tags
 
-if ! git show-ref --tags "$PREFIXED_VERSION"; then
-    echo "Tag with name '$PREFIXED_VERSION' found unpublished."
+if ! git show-ref --tags "$LOCAL_VERSION"; then
+    echo "Tag with name '$LOCAL_VERSION' found unpublished."
     
     API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
     STATUS_CODE=$(curl \
@@ -26,12 +26,12 @@ if ! git show-ref --tags "$PREFIXED_VERSION"; then
     --write-out "%{http_code}" \
     -H "Accept: application/json" \
     -H "Authorization: token $GH_TOKEN" \
-    -d '{"tag_name":'\""$PREFIXED_VERSION"\"'}' \
+    -d '{"tag_name":'\""$LOCAL_VERSION"\"'}' \
     "$API_URL"
     )
     
     if [[ "$STATUS_CODE" -lt 200 ]] || [[ "$STATUS_CODE" -gt 299 ]]; then exit "$STATUS_CODE"; fi
     
 else
-    echo "Tag with name '$PREFIXED_VERSION' is already published."
+    echo "Tag with name '$LOCAL_VERSION' is already published."
 fi
