@@ -18,9 +18,9 @@ if [[ -z "$CIRCLE_PROJECT_USERNAME" ]] || [[ -z "$CIRCLE_PROJECT_REPONAME" ]]; t
     exit 1
 fi
 
-if $PREFIX_TAG; then LOCAL_VERSION="v$LOCAL_VERSION"; fi
+if [ "$PREFIX_TAG" = true ] || [ "$PREFIX_TAG" = 1 ]; then LOCAL_VERSION="v$LOCAL_VERSION"; fi
 
-# Pull the latest tags locally
+echo "Pulling remote tags..."
 git fetch --tags
 
 if ! git show-ref --tags "$LOCAL_VERSION"; then

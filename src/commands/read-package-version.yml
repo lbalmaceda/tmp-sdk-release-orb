@@ -19,5 +19,5 @@ steps:
       environment:
         LANGUAGE: <<parameters.language>>
         PACKAGE_VERSION_KEY: <<parameters.package-version-key>>
-      name: Obtain the package version
+      name: Obtain the package version name
       command: <<include(scripts/read-package-version.sh)>>
