@@ -31,7 +31,7 @@ if ! git show-ref --tags "$LOCAL_VERSION"; then
     API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls"
     RELEASE_PR_BODY=$(curl -G \
     -H "Accept: application/json" \
-    -H "Authorization: token $GH" \
+    -H "Authorization: token $GH_TOKEN" \
     --data-urlencode "state=all" \
     --data-urlencode "head=$CIRCLE_PROJECT_USERNAME:$RELEASE_PR_BRANCH" \
     "$API_URL" | jq -r ".[0].body"
