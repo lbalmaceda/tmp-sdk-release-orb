@@ -26,7 +26,7 @@ if ! git show-ref --tags "$PREFIXED_VERSION"; then
     "$API_URL"
     )
     
-    if [ "$STATUS_CODE" -ne 200 ]; then exit "$STATUS_CODE"; fi
+    if [[ "$STATUS_CODE" -lt 200 ]] || [[ "$STATUS_CODE" -gt 299 ]]; then exit "$STATUS_CODE"; fi
     
 else
     echo "Tag with name '$PREFIXED_VERSION' is already published."
