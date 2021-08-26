@@ -38,6 +38,12 @@ if ! git show-ref --tags "$LOCAL_VERSION"; then
     )
     if [ -z "$RELEASE_PR_BODY" ] || [[ "$RELEASE_PR_BODY" == "null" ]]; then RELEASE_PR_BODY=""; fi
 
+    # Create a well-formed JSON payload to send
+    RELEASE_JSON=$(jq --null-input \
+    --arg pkg_ver "$LOCAL_VERSION" \
+    --arg pr_body "$RELEASE_PR_BODY" \
+    '{"tag_name": $pkg_ver, "name": $pkg_ver, "body": $pr_body}')
+
     # POST the Release
     API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
     STATUS_CODE=$(curl \
@@ -45,7 +51,7 @@ if ! git show-ref --tags "$LOCAL_VERSION"; then
     --write-out "%{http_code}" \
     -H "Accept: application/json" \
     -H "Authorization: token $GH_TOKEN" \
-    -d '{"tag_name":'\""$LOCAL_VERSION"\"',"name":'\""$LOCAL_VERSION"\"',"body":'\""$RELEASE_PR_BODY"\"'}' \
+    -d "$RELEASE_JSON" \
     "$API_URL"
     )
     
