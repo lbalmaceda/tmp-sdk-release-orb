@@ -1,3 +1,10 @@
+LOCAL_VERSION="${!PACKAGE_VERSION_KEY}"
+# Check if $LOCAL_VERSION is defined
+if [[ -z "$LOCAL_VERSION" ]]; then
+    echo "ERROR: The '$PACKAGE_VERSION_KEY' variable must be set to the package version name."
+    exit 1
+fi
+
 NPM_TOKEN="${!NPM_TOKEN_KEY}"
 # Check if $NPM_TOKEN is defined
 if [[ -z "$NPM_TOKEN" ]]; then
@@ -6,7 +13,6 @@ if [[ -z "$NPM_TOKEN" ]]; then
 fi
 
 PACKAGE_NAME=$(node -p "require('./package.json').name")
-LOCAL_VERSION=$(node -p "require('./package.json').version")
 PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME" versions --json | jq -r '.[-1]')
 
 if [[ $LOCAL_VERSION != "$PUBLISHED_VERSION" ]]; then

@@ -11,6 +11,10 @@ parameters:
     type: env_var_name
     default: NPM_TOKEN
     description: "The name of the environment variable with the Npm automation token"
+  package-version-key:
+    type: env_var_name
+    default: PACKAGE_VERSION
+    description: "The name of the environment variable with the package version name to publish"
   pkg-manager:
     type: enum
     default: npm
@@ -24,6 +28,7 @@ steps:
       environment:
         PUBLISH_COMMAND: <<parameters.publish-command>>
         NPM_TOKEN_KEY: <<parameters.npm-token-key>>
+        PACKAGE_VERSION_KEY: <<parameters.package-version-key>>
         PKG_MANAGER: <<parameters.pkg-manager>>
       name: Check package version and publish to npm if required
       command: <<include(scripts/node-publish-to-npm.sh)>>
