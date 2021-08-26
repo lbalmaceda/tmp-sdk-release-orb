@@ -1,7 +1,14 @@
+LOCAL_VERSION="${!PACKAGE_VERSION_KEY}"
+# Check if $LOCAL_VERSION is defined
+if [[ -z "$LOCAL_VERSION" ]]; then
+    echo "ERROR: The '$PACKAGE_VERSION_KEY' variable must be set to the package version name."
+    exit 1
+fi
+
 GH_TOKEN="${!GH_TOKEN_KEY}"
 # Check if $GH_TOKEN is defined
 if [[ -z "$GH_TOKEN" ]]; then
-    echo "ERROR: The '$GH_TOKEN_KEY' variable must be set to a Github Access Token."
+    echo "ERROR: The '$GH_TOKEN_KEY' variable must be set to a Github access token."
     exit 1
 fi
 
@@ -11,7 +18,6 @@ if [[ -z "$CIRCLE_PROJECT_USERNAME" ]] || [[ -z "$CIRCLE_PROJECT_REPONAME" ]]; t
     exit 1
 fi
 
-LOCAL_VERSION=$(node -p "require('./package.json').version")
 if $PREFIX_TAG; then LOCAL_VERSION="v$LOCAL_VERSION"; fi
 
 # Pull the latest tags locally

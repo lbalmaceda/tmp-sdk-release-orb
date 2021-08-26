@@ -1,0 +1,23 @@
+description: >
+  This command obtains the package version name given the
+  language and exports it to an environment variable.
+
+parameters:
+  package-version-key:
+    type: env_var_name
+    default: PACKAGE_VERSION
+    description: "The name of the environment variable where the package version will be exported"
+  language:
+    type: enum
+    default: node
+    description: "The language or platform that describes the project structure"
+    enum:
+      - node
+
+steps:
+  - run:
+      environment:
+        LANGUAGE: <<parameters.language>>
+        PACKAGE_VERSION_KEY: <<parameters.package-version-key>>
+      name: Obtain the package version
+      command: <<include(scripts/read-package-version.sh)>>

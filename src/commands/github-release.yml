@@ -1,12 +1,16 @@
 description: >
-  This command verifies if the version in the package.json file is
-  already published, and if not, it will attempt to publish it to Github.
+  This command verifies if the package is already published,
+  and if not, it will attempt to publish it to Github.
 
 parameters:
   gh-token-key:
     type: env_var_name
     default: GH_TOKEN
-    description: "The name of the environment variable with the Github Access Token"
+    description: "The name of the environment variable with the Github access token"
+  package-version-key:
+    type: env_var_name
+    default: PACKAGE_VERSION
+    description: "The name of the environment variable with the package version name to publish"
   prefix-tag:
     type: boolean
     default: true
@@ -16,6 +20,7 @@ steps:
   - run:
       environment:
         GH_TOKEN_KEY: <<parameters.gh-token-key>>
+        PACKAGE_VERSION_KEY: <<parameters.package-version-key>>
         PREFIX_TAG: <<parameters.prefix-tag>>
-      name: Check package version and publish to Github if required
+      name: Publish to Github if required
       command: <<include(scripts/make-github-release.sh)>>
