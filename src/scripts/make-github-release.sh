@@ -5,6 +5,7 @@ if [[ -z "$GH_TOKEN" ]]; then
     exit 1
 fi
 
+# Check if the API URL can be constructed
 if [[ -z "$CIRCLE_PROJECT_USERNAME" ]] || [[ -z "$CIRCLE_PROJECT_REPONAME" ]]; then
     echo "ERROR: The variables 'CIRCLE_PROJECT_USERNAME' and/or 'CIRCLE_PROJECT_REPONAME' are not defined. Running this locally requires those variables to be explicitly set via the CLI. See https://circleci.com/docs/2.0/local-cli/#limitations-of-running-jobs-locally."
     exit 1
@@ -12,6 +13,9 @@ fi
 
 LOCAL_VERSION=$(node -p "require('./package.json').version")
 PREFIXED_VERSION=$TAG_PREFIX$LOCAL_VERSION
+
+# Pull the latest tags locally
+git fetch --tags
 
 if ! git show-ref --tags "$PREFIXED_VERSION"; then
     echo "Tag with name '$PREFIXED_VERSION' found unpublished."
