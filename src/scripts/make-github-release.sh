@@ -32,7 +32,7 @@ if ! git show-ref --tags "$LOCAL_VERSION"; then
     --write-out "%{http_code}" \
     -H "Accept: application/json" \
     -H "Authorization: token $GH_TOKEN" \
-    -d '{"tag_name":'\""$LOCAL_VERSION"\"'}' \
+    -d '{"tag_name":'\""$LOCAL_VERSION"\"',"name":'\""$LOCAL_VERSION"\"'}' \
     "$API_URL"
     )
     
