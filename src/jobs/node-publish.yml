@@ -8,6 +8,14 @@ parameters:
     type: env_var_name
     default: NPM_TOKEN
     description: "The name of the environment variable with the Npm Automation Token"
+  gh-token-key:
+    type: env_var_name
+    default: GH_TOKEN
+    description: "The name of the environment variable with the Github access token"
+  prefix-tag:
+    type: boolean
+    default: true
+    description: "Whether to prefix the tag name with a 'v' or not"
   pkg-manager:
     type: enum
     default: npm
@@ -20,7 +28,11 @@ steps:
   - checkout
   - node-install-packages:
       pkg-manager: <<parameters.pkg-manager>>
+  - read-package-version:
+      language: node
   - node-publish:
       npm-token-key: <<parameters.npm-token-key>>
       pkg-manager: <<parameters.pkg-manager>>
-  # - github-release
+  - github-release:
+      gh-token-key: <<parameters.gh-token-key>>
+      prefix-tag: <<parameters.prefix-tag>>
