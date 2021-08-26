@@ -28,10 +28,12 @@ if ! git show-ref --tags "$LOCAL_VERSION"; then
     
     # Try to get the Changelog entry from the release PR
     RELEASE_PR_BRANCH="release/$LOCAL_VERSION"
-    API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls?state=all&head=$CIRCLE_PROJECT_USERNAME:$RELEASE_PR_BRANCH"
-    echo "Making request to $API_URL"
-    RELEASE_PR_BODY=$(curl -H "Accept: application/json" \
+    API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls"
+    RELEASE_PR_BODY=$(curl -G \
+    -H "Accept: application/json" \
     -H "Authorization: token $GH" \
+    --data-urlencode "state=all" \
+    --data-urlencode "head=$CIRCLE_PROJECT_USERNAME:$RELEASE_PR_BRANCH" \
     "$API_URL" | jq -r ".[0].body"
     )
     if [ -z "$RELEASE_PR_BODY" ] || [[ "$RELEASE_PR_BODY" == "null" ]]; then RELEASE_PR_BODY=""; fi
